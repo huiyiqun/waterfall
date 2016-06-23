@@ -18,5 +18,23 @@ class Bitstring(object):
         else:
             raise TypeError("Invalid argument type")
 
+    def __setitem__(self, key, value):
+        if isinstance(key, slice):
+            iteration = range(*key.indices(len(self)))
+            assert (2 << len(iteration)) // 2 > value >= 0
+            for offset, index in enumerate(iteration):
+                self[index] = (value >> offset) & 1
+        elif isinstance(key, int):
+            assert value in [0, 1]
+            if key < -len(self) or key >= len(self):
+                raise IndexError("The index (%d) is out of range." % key)
+            if key < 0:
+                self[len(self)+key] = value
+            else:
+                self.bytes[key // 8] &= (1 << (key % 8)) ^ 255
+                self.bytes[key // 8] |= value << (key % 8)
+        else:
+            raise TypeError("Invalid argument type")
+
     def __len__(self):
         return len(self.bytes) * 8

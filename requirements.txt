@@ -1,2 +1,4 @@
 python-magic
-pillow
+numpy
+scipy
+Pillow

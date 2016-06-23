@@ -1,2 +1,9 @@
+from scipy.ndimage import imread
+
+from waterfall.cover.picture import RGBCover
+
+
 def read_picture(filepath):
-    pass
+    imarray = imread(filepath)
+    if imarray.shape[2] == 3:
+        return RGBCover(imarray)

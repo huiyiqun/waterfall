@@ -5,10 +5,14 @@ from waterfall.io.picture import read_picture
 
 
 def read(filepath):
-    mime = magic.from_file(filepath, mime=True)
+    mime = magic.from_file(filepath, mime=True).decode()
     type, subtype = mime.split('/')
 
     if type == 'video':
-        return read_video(filepath)
+        cover = read_video(filepath)
     elif type == 'image':
-        return read_picture(filepath)
+        cover = read_picture(filepath)
+
+    cover.mime = mime
+
+    return cover

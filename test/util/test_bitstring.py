@@ -44,3 +44,6 @@ class TestBitstring(unittest.TestCase):
 
         self.bitstring[9:] = 0
         self.assertListEqual(self.bitstring.bytes, [255, 1])
+
+        with self.assertRaises(AssertionError):
+            self.bitstring[:] = 256 * 256

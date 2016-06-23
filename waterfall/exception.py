@@ -1,0 +1,2 @@
+class CapacityIsNotEnough(Exception):
+    pass

@@ -26,24 +26,24 @@ class TestBitstring(unittest.TestCase):
 
     def test_setitem(self):
         self.bitstring[15] = 1
-        self.assertListEqual(self.bitstring.bytes, [255, 129])
+        self.assertListEqual(self.bitstring.list, [255, 129])
 
         self.bitstring[-1] = 0
-        self.assertListEqual(self.bitstring.bytes, [255, 1])
+        self.assertListEqual(self.bitstring.list, [255, 1])
 
         self.bitstring[0] = 0
-        self.assertListEqual(self.bitstring.bytes, [254, 1])
+        self.assertListEqual(self.bitstring.list, [254, 1])
 
         self.bitstring[-16] = 1
-        self.assertListEqual(self.bitstring.bytes, [255, 1])
+        self.assertListEqual(self.bitstring.list, [255, 1])
 
     def test_setslice(self):
         for i in range(256 * 256):
             self.bitstring[:] = i
-            self.assertListEqual(self.bitstring.bytes, [i % 256, i // 256])
+            self.assertListEqual(self.bitstring.list, [i % 256, i // 256])
 
         self.bitstring[9:] = 0
-        self.assertListEqual(self.bitstring.bytes, [255, 1])
+        self.assertListEqual(self.bitstring.list, [255, 1])
 
         with self.assertRaises(AssertionError):
             self.bitstring[:] = 256 * 256

@@ -1,6 +1,6 @@
 class Bitstring(object):
     def __init__(self, bytes):
-        self.bytes = bytes
+        self._bytes = bytearray(bytes)
 
     def __getitem__(self, key):
         if isinstance(key, slice):
@@ -14,7 +14,7 @@ class Bitstring(object):
             if key < 0:
                 return self[len(self)+key]
             else:
-                return (self.bytes[key // 8] >> (key % 8)) & 1
+                return (self._bytes[key // 8] >> (key % 8)) & 1
         else:
             raise TypeError("Invalid argument type")
 
@@ -31,10 +31,18 @@ class Bitstring(object):
             if key < 0:
                 self[len(self)+key] = value
             else:
-                self.bytes[key // 8] &= (1 << (key % 8)) ^ 255
-                self.bytes[key // 8] |= value << (key % 8)
+                self._bytes[key // 8] &= (1 << (key % 8)) ^ 255
+                self._bytes[key // 8] |= value << (key % 8)
         else:
             raise TypeError("Invalid argument type")
 
     def __len__(self):
-        return len(self.bytes) * 8
+        return len(self._bytes) * 8
+
+    @property
+    def bytes(self):
+        return bytes(self._bytes)
+
+    @property
+    def list(self):
+        return list(self._bytes)

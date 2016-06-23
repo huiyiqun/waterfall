@@ -9,9 +9,12 @@ class Bitstring(object):
                 ret += self[index] << offset
             return ret
         elif isinstance(key, int):
-            if key < 0 or key >= len(self):
+            if key < -len(self) or key >= len(self):
                 raise IndexError("The index (%d) is out of range." % key)
-            return (self.bytes[key // 8] >> (key % 8)) & 1
+            if key < 0:
+                return self[len(self)+key]
+            else:
+                return (self.bytes[key // 8] >> (key % 8)) & 1
         else:
             raise TypeError("Invalid argument type")
 

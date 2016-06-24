@@ -2,3 +2,4 @@ python-magic
 numpy
 scipy
 Pillow
+PyWavelets
